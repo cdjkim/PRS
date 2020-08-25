@@ -1,0 +1,101 @@
+debug: False
+analysis: False
+feature_analysis: False
+
+###########
+# Dataset #
+###########
+
+data_root: './data/NUS-WIDE/task_split_0120/'
+batch_size: 10
+num_workers: 16
+eval_batch_size: 10
+eval_num_workers: 4
+eval_split: 'test' # teorg | test
+
+num_tasks: 6
+nb_classes: 49
+
+batch_iter: 1   # num of batch iteration for on-line learning
+
+#########
+# Model #
+#########
+
+x_c: 3
+x_h: 256
+x_w: 256
+
+device: 'cuda'
+
+reservoir_size: 1000
+
+reservoir_minsize: 2
+reservoir_size_limit: 100
+reservoir_name: 'random'
+replay_multiple: 1 # replayed batch size relative to input size.
+
+reservoir_sample_num: 10
+reservoir_batch_size: 10
+
+threshold: 0
+moving_avg_alpha: 0.9
+
+e: 'resnet_encoder'
+model_name: 'mlab_reservoir'
+emb_dim: 512
+enc_dim: 2048 # due to resnet output
+dropout: 0.0
+
+# Encoder Param
+pretrained: True
+fine_tune: True
+
+#########
+# Train #
+#########
+
+weight_decay: 0.00001
+implicit_lr_decay: False
+
+
+#optimizer_e:
+  #type: SGD
+  #options:
+    #lr: 0.01
+    #momentum: 0.9
+optimizer_e:
+  type: Adam
+  options:
+    lr: 0.0001
+
+#  type: Adam
+  # options:
+#    lr: 0.0001
+
+lr_scheduler_e:
+  type: MultiStepLR
+  options:
+    milestones: [1]
+    gamma: 1.0
+
+clip_grad:
+  type: value
+  options:
+    clip_value: 5
+
+########
+# Eval #
+########
+
+eval: True
+analysis: False
+
+###########
+# Summary #
+###########
+
+summary_step: 100
+eval_step: 500
+ckpt_step: 1000000000
+summarize_samples: false

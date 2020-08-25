@@ -1,0 +1,13 @@
+- subsets: [['coco', 0]]
+  epoch: 1
+  shuffle: True
+- subsets: [['coco', 3]]
+  epoch: 1
+  shuffle: True
+- subsets: [['coco', 1]]
+  epoch: 1
+  shuffle: True
+- subsets: [['coco', 2]]
+  epoch: 1
+  shuffle: True
+

@@ -1,0 +1,89 @@
+debug: False
+analysis: False
+feature_analysis: False
+
+###########
+# Dataset #
+###########
+data_name: 'coco'
+data_root: './data/MSCOCO/task_split_manual_newvocab'
+batch_size: 10
+num_workers: 16
+eval_batch_size: 10
+eval_num_workers: 4
+eval_split: 'teval' # teorg | teval | val | test
+
+num_tasks: 4
+nb_classes: 70
+
+batch_iter: 1   # num of batch iteration for on-line learning
+
+#########
+# Model #
+#########
+
+x_c: 3
+x_h: 256
+x_w: 256
+
+device: 'cuda'
+
+# Reservoir Param
+reservoir_size: 2000
+reservoir_name: 'prs_mlab'
+reallocate_num: 500 # when to break and reallocate buffer.
+q_poa: -0.03 # power of allocation 0 ~ 1.
+batch_sampler: 'random' # 'uniform | weighted | random'
+replay_multiple: 1 # replayed batch size relative to input size.
+crs_remove: 'largest_delta' # heuristic | normal | weighted
+crs_method: 'weighted' # 'strat_crs | normal | simple
+
+e: 'resnet_encoder'
+model_name: 'mlab_reservoir'
+emb_dim: 512
+enc_dim: 2048 # due to resnet output
+dropout: 0.0
+
+# Encoder Param
+pretrained: True
+fine_tune: True
+
+#########
+# Train #
+#########
+
+weight_decay: 0.00001
+implicit_lr_decay: False
+
+pos_weight: 5 # XXX
+
+optimizer_e:
+  type: Adam
+  options:
+    lr: 0.0001
+
+lr_scheduler_e:
+  type: MultiStepLR
+  options:
+    milestones: [1]
+    gamma: 1.0
+
+clip_grad:
+  type: value
+  options:
+    clip_value: 5
+
+########
+# Eval #
+########
+
+eval: True
+
+###########
+# Summary #
+###########
+
+summary_step: 50
+eval_step: 500
+ckpt_step: 1000000000
+summarize_samples: false

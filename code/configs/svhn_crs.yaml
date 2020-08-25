@@ -1,0 +1,122 @@
+debug: False
+analysis: False
+feature_analysis: False
+###########
+# Dataset #
+###########
+alpha: 0.6
+
+data_root: './data'
+batch_size: 10
+num_workers: 16
+eval_batch_size: 256
+eval_num_workers: 4
+batch_iter: 1
+
+num_tasks: 5
+longtail: True
+nb_classes: 10
+
+#########
+# Model #
+#########
+
+x_c: 3
+x_h: 32
+x_w: 32
+y_c: 10
+
+device: 'cuda'
+e: 'resnet_classifier' #'mlp_classifier4' #'cnn_classifier'
+h1_dim: 128
+h2_dim: 256
+h3_dim: 256
+fc_dim: 512
+
+model_name: 'slab_rsvr'
+reservoir_name: 'random'
+reservoir_size: 500
+replay_multiple: 1 # replayed batch size relative to input size.
+
+reservoir_sample_num: 500
+reservoir_batch_size: 10
+
+reallocate_num: 20 # when to break and reallocate buffer.
+q_poa: 0.0 # power of allocation 0 ~ 1.
+batch_sampler: 'uniform' # 'uniform | weighted'
+crs_remove: 'normal' # heuristic | normal | weighted
+crs_method: 'largest_delta' # 'strat_crs | normal | simple
+
+cost_sensitive: False
+
+
+# Adaptive Replay batch
+# Alter replay batch size buffer based on unique number of classes.
+adaptive_replay: False
+
+# Encoder Param
+pretrained: False
+fine_tune: False
+
+#########
+# Train #
+#########
+weight_decay: 0.00001
+implicit_lr_decay: False
+
+optimizer_d:
+  type: Adam
+  options:
+    lr: 0.0002
+
+lr_scheduler_d:
+  type: MultiStepLR
+  options:
+    milestones: [1]
+    gamma: 1.0
+
+clip_grad:
+  type: value
+  options:
+    clip_value: 0.5
+
+# weight_decay: 0.00001
+# implicit_lr_decay: True
+
+
+# optimizer_d:
+  # type: Adam
+  # options:
+    # lr: 0.001
+
+## optimizer_d:
+  ## type: SGD
+  ## options:
+    ## lr: 0.01
+    ## momentum: 0.9
+
+# lr_scheduler_d:
+  # type: MultiStepLR
+  # options:
+    # milestones: [1]
+    # gamma: 0.4
+
+# clip_grad:
+  # type: value
+  # options:
+    # clip_value: 10
+
+########
+# Eval #
+########
+
+eval: True
+
+###########
+# Summary #
+###########
+
+summary_step: 10
+eval_step: 100
+ckpt_step: 1000000000
+summarize_samples: false

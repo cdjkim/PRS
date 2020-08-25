@@ -1,0 +1,19 @@
+- subsets: [['nuswide', 3]]
+  epoch: 1
+  shuffle: True
+- subsets: [['nuswide', 1]]
+  epoch: 1
+  shuffle: True
+- subsets: [['nuswide', 0]]
+  epoch: 1
+  shuffle: True
+- subsets: [['nuswide', 5]]
+  epoch: 1
+  shuffle: True
+- subsets: [['nuswide', 4]]
+  epoch: 1
+  shuffle: True
+- subsets: [['nuswide', 2]]
+  epoch: 1
+  shuffle: True
+

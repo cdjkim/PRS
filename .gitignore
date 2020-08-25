@@ -1,0 +1,18 @@
+*.swp
+*.pyc
+.ipynb_checkpoints
+*.tfidf
+.cenv
+.venv
+
+# Ignore data directory
+data
+
+# Ignore checkpoints
+checkpoints
+
+# To ignore images
+*.gif
+*.srt
+*.jpg*
+*.eps
