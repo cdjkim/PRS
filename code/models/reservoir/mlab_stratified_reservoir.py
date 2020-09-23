@@ -291,7 +291,7 @@ class PRS_mlab(rsvrBase):
 
         s = torch.sum(probs * weights)
 
-        return random.choices([True, False], [s, 1 - s])
+        return random.choices([True, False], [s, 1 - s])[0]
 
     def save_sample(self, rsvr_idx, sample=None):
         """
