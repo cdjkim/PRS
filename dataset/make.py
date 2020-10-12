@@ -47,8 +47,10 @@ if __name__ == '__main__':
         with open(os.path.join(args.data_source, 'ids', id_fname), 'r') as f:
             ids = json.load(f)
 
-        data_fname = id_fname.replace('id', '{data}').replace('json', '{ext}')
+        data_fname = id_fname.replace('_id_', '_{data}_').replace('.json', '.{ext}')
         maker.make(ids, os.path.join(args.dest, data_fname))
+
+    maker.save_multihotdict(os.path.join(args.dest, 'multi_hot_dict_{dataset_name}.json'))
 
 
 

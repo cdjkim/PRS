@@ -88,8 +88,17 @@ class COCOseqMaker(BaseMaker):
         #hf.create_dataset('labels', data=np.asarray(multihot_labels))
         hf.close()
 
-        with open(dst.format(data='labels', ext='json'), 'w') as f:
+        with open(dst.format(data='multi_hot_categories', ext='json'), 'w') as f:
             json.dump(multihot_labels, f)
+
+
+    def save_multihotdict(self, dst):
+        multihot_dict_name = dst.format(dataset_name='coco')
+        multihot_dict = [None for _ in range(len(self.multihot_map))]
+        for cat, idx in self.multihot_map.items():
+            multihot_dict[idx] = cat
+        with open(multihot_dict_name, 'w') as f:
+            json.dump(multihot_dict, f)
 
 
 class NUSWIDEseqMaker(BaseMaker):
@@ -141,20 +150,34 @@ class NUSWIDEseqMaker(BaseMaker):
         imgs = []
         multihot_labels = []
 
+        not_available = 0
         desc = '_'.join(dst.split(os.sep)[-1].split('_')[:2])
         for id in tqdm.tqdm(ids, desc=desc, leave=False):
-            img = open_image(os.path.join(self.source_path, 'image', img_list[id]))
-            imgs.append(img)
+            try:
+                img = open_image(os.path.join(self.source_path, 'image', img_list[id]))
+                imgs.append(img)
 
-            multihot_label = label_list[id]
-            multihot_labels.append(multihot_label.tolist())
+                multihot_label = label_list[id]
+                multihot_labels.append(multihot_label.tolist())
+            except FileNotFoundError as e:
+                not_available += 1
 
         hf = h5py.File(dst.format(data='imgs', ext='hdf5'), 'w')
         hf.create_dataset('images', data=np.asarray(imgs))
         hf.close()
 
-        with open(dst.format(data='labels', ext='json'), 'w') as f:
+        with open(dst.format(data='multi_hot_categories', ext='json'), 'w') as f:
             json.dump(multihot_labels, f)
+
+        print('# {} imgs are not availbale for {}'.format(not_available, dst))
+
+    def save_multihotdict(self, dst):
+        multihot_dict_name = dst.format(dataset_name='nuswide')
+        multihot_dict = [None for _ in range(len(self.multihot_map))]
+        for cat, idx in self.multihot_map.items():
+            multihot_dict[idx] = cat
+        with open(multihot_dict_name, 'w') as f:
+            json.dump(multihot_dict, f)
 
 
     def download_imgs(self, src, dst):
@@ -197,8 +220,8 @@ class NUSWIDEseqMaker(BaseMaker):
                 skimage.io.imsave(os.path.join(dst, dir, fname), im)
 
         total = defaultdict(lambda: 0)
-        threads = [None] * self.download_thread
-        counters = [defaultdict(lambda: 0)] * self.download_thread
+        threads = [None for _ in range(self.download_thread)]
+        counters = [defaultdict(lambda: 0) for _ in range(self.download_thread)]
         nchunk = len(urls) // self.download_thread
 
         for i in range(self.download_thread):

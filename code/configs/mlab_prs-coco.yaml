@@ -11,7 +11,7 @@ batch_size: 10
 num_workers: 16
 eval_batch_size: 10
 eval_num_workers: 4
-eval_split: 'teval' # teorg | teval | val | test
+eval_split: 'test' # teorg | teval | val | test
 
 num_tasks: 4
 nb_classes: 70
