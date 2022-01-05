@@ -1,6 +1,6 @@
 # Imbalanced Continual Learning with Partioning Reservoir Sampling
 This repository contains the official PyTorch implementation and the dataset for our ECCV2020 paper.
-- Chris Dongjoo Kim, Jinseo Jeong, Gunhee Kim. Imbalanced Continual Learning with Partitioning Reservoir Sampling. In ECCV, 2020.
+- [Chris Dongjoo Kim](https://cdjkim.github.io/), [Jinseo Jeong](https://www.jinseo.kr/), [Gunhee Kim](https://vision.snu.ac.kr/gunhee/). Imbalanced Continual Learning with Partitioning Reservoir Sampling. In ECCV, 2020.
 
 [[Paper Link]](http://arxiv.org/abs/2009.03632)[[slides]](https://github.com/cdjkim/PRS/tree/master/resources/eccv20_slides.pdf)
 
